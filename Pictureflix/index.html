@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Picture Flix — Dark cinema lobby streaming discovery platform with Letterboxd aesthetics." />
+  <title>Picture Flix — Cinema Lobby & Film Discovery</title>
+
+  <!-- Google Fonts: DM Sans (Graphik substitute), Source Serif 4 (Tiempos substitute), Playfair Display (Headline serif) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=Playfair+Display:ital,wght@0,700;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ==========================================================================
+       PERSISTENT TOP NAVIGATION BAR (Void Black, Full-Width)
+       ========================================================================== -->
+  <header class="site-header" id="siteHeader">
+    <div class="nav-container">
+      <!-- Logo -->
+      <a href="#" class="logo" aria-label="Picture Flix Home">
+        PICTURE FLIX<span class="logo-dot"></span>
+      </a>
+
+      <!-- Navigation Links -->
+      <nav aria-label="Primary Navigation">
+        <ul class="nav-links">
+          <li><a href="#trendingSection" class="nav-link active">Films</a></li>
+          <li><a href="#topRatedSection" class="nav-link">Lists</a></li>
+          <li><a href="#editorialSection" class="nav-link">Journal</a></li>
+          <li><a href="#curatedSection" class="nav-link">Members</a></li>
+        </ul>
+      </nav>
+
+      <!-- Header Actions -->
+      <div class="header-actions">
+        <!-- Search Field -->
+        <div class="search-wrapper">
+          <input 
+            type="search" 
+            id="headerSearchInput" 
+            class="search-input" 
+            placeholder="Search films... (/)" 
+            autocomplete="off"
+            aria-label="Search films"
+          />
+          <span class="search-icon-btn" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </span>
+
+          <!-- Search Results Dropdown -->
+          <div id="searchResultsDropdown" class="search-results-dropdown" role="listbox"></div>
+        </div>
+
+        <!-- Watchlist Trigger Button -->
+        <button id="navWatchlistBtn" class="nav-btn-watchlist" aria-label="Open Watchlist">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/>
+          </svg>
+          <span>Watchlist</span>
+          <span id="watchlistBadge" class="watchlist-count-badge">0</span>
+        </button>
+
+        <!-- API Key Settings / Profile -->
+        <button id="navApiSettingsBtn" class="nav-avatar-btn" title="Configure TMDB API Key" aria-label="Configure TMDB API Key">
+          API
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       HERO BILLBOARD (Cinematic Backdrop, 36px Serif Display, Acid Green CTA)
+       ========================================================================== -->
+  <section class="hero-section" id="heroSection">
+    <div class="hero-overlay"></div>
+    <div class="container">
+      <div class="hero-content">
+        <!-- Eyebrow Tag -->
+        <div class="hero-eyebrow">
+          <span class="badge badge-green">SPOTLIGHT PREMIERE</span>
+          <span class="hero-eyebrow-text">FEATURED OF THE WEEK</span>
+        </div>
+
+        <!-- 36px Headline Serif -->
+        <h1 class="hero-title" id="heroTitle">Dune: Part Two</h1>
+
+        <!-- Meta Row -->
+        <div class="hero-meta-row">
+          <span class="badge badge-outline">4K ULTRA HD</span>
+          <span class="hero-meta-item" id="heroYear">2024</span>
+          <span class="hero-meta-item">•</span>
+          <span class="hero-meta-item" id="heroRatingWrap">
+            <!-- Stars rendered dynamically -->
+          </span>
+          <span class="hero-meta-item">•</span>
+          <span class="hero-meta-item">ATMOS 7.1</span>
+        </div>
+
+        <!-- Editorial Description (Tiempos 15px / 1.67) -->
+        <p class="hero-description" id="heroDescription">
+          Paul Atreides unites with Chani and the Fremen while seeking revenge against the conspirators who destroyed his family in this grand cinematic spectacle.
+        </p>
+
+        <!-- CTAs -->
+        <div class="hero-actions">
+          <button id="heroTrailerBtn" class="btn-primary-action">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+            WATCH TRAILER
+          </button>
+          <button id="heroWatchlistBtn" class="btn-secondary">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+            </svg>
+            ADD TO WATCHLIST
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rotated 90 Deg Attribution on Right Edge -->
+    <div class="hero-attribution" id="heroAttribution">
+      STILL FROM FEATURED CINEMA · TMDB ARCHIVE
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       MAIN CONTENT CONTAINER
+       ========================================================================== -->
+  <main class="container">
+    
+    <!-- Genre / Category Filter Bar -->
+    <div class="filter-bar-wrapper">
+      <div class="filter-bar" role="tablist">
+        <button class="filter-chip active" data-genre="0">All Films</button>
+        <button class="filter-chip" data-genre="28">Action</button>
+        <button class="filter-chip" data-genre="878">Sci-Fi</button>
+        <button class="filter-chip" data-genre="18">Drama</button>
+        <button class="filter-chip" data-genre="53">Thriller</button>
+        <button class="filter-chip" data-genre="16">Animation</button>
+        <button class="filter-chip" data-genre="35">Comedy</button>
+        <button class="filter-chip" data-genre="27">Horror</button>
+      </div>
+    </div>
+
+    <!-- Section 1: Trending Cinema -->
+    <section class="content-section" id="trendingSection">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <h2 class="section-title">Trending Cinema</h2>
+          <span class="section-subtitle">Live Most Watched Worldwide</span>
+        </div>
+        <div class="slider-arrows">
+          <button class="slider-arrow-btn" data-target="rowTrending" data-direction="left" aria-label="Scroll left">‹</button>
+          <button class="slider-arrow-btn" data-target="rowTrending" data-direction="right" aria-label="Scroll right">›</button>
+        </div>
+      </div>
+
+      <div class="posters-row-container">
+        <div class="posters-row" id="rowTrending">
+          <!-- Dynamically populated poster cards -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Top Rated Masterpieces -->
+    <section class="content-section" id="topRatedSection">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <h2 class="section-title">Top Rated Masterpieces</h2>
+          <span class="section-subtitle">Letterboxd & TMDB Highest Acclaimed</span>
+        </div>
+        <div class="slider-arrows">
+          <button class="slider-arrow-btn" data-target="rowTopRated" data-direction="left" aria-label="Scroll left">‹</button>
+          <button class="slider-arrow-btn" data-target="rowTopRated" data-direction="right" aria-label="Scroll right">›</button>
+        </div>
+      </div>
+
+      <div class="posters-row-container">
+        <div class="posters-row" id="rowTopRated">
+          <!-- Dynamically populated poster cards -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: Now Playing / In Theatres -->
+    <section class="content-section" id="nowPlayingSection">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <h2 class="section-title">In Theatres & Streaming Now</h2>
+          <span class="section-subtitle">Fresh Release Box Office</span>
+        </div>
+        <div class="slider-arrows">
+          <button class="slider-arrow-btn" data-target="rowNowPlaying" data-direction="left" aria-label="Scroll left">‹</button>
+          <button class="slider-arrow-btn" data-target="rowNowPlaying" data-direction="right" aria-label="Scroll right">›</button>
+        </div>
+      </div>
+
+      <div class="posters-row-container">
+        <div class="posters-row" id="rowNowPlaying">
+          <!-- Dynamically populated poster cards -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 4: Editorial & Community Reviews (Letterboxd Style) -->
+    <section class="content-section" id="editorialSection">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <h2 class="section-title">Popular Reviews This Week</h2>
+          <span class="section-subtitle">Editorial Notes & Member Logs</span>
+        </div>
+        <a href="#trendingSection" class="section-more-link">View All Logs →</a>
+      </div>
+
+      <div class="reviews-grid" id="editorialReviewsGrid">
+        <!-- Dynamically rendered review cards in Tiempos Serif -->
+      </div>
+    </section>
+
+    <!-- Section 5: Curated Sci-Fi & Noir Thrillers -->
+    <section class="content-section" id="curatedSection">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <h2 class="section-title">Curated Deep Cuts & Sci-Fi Noir</h2>
+          <span class="section-subtitle">Atmospheric Cinema Lobby Selections</span>
+        </div>
+        <div class="slider-arrows">
+          <button class="slider-arrow-btn" data-target="rowCurated" data-direction="left" aria-label="Scroll left">‹</button>
+          <button class="slider-arrow-btn" data-target="rowCurated" data-direction="right" aria-label="Scroll right">›</button>
+        </div>
+      </div>
+
+      <div class="posters-row-container">
+        <div class="posters-row" id="rowCurated">
+          <!-- Dynamically populated poster cards -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==========================================================================
+       MOVIE DETAIL MODAL DIALOG (Trailer Player + Cast + Rating Widget)
+       ========================================================================== -->
+  <div class="modal-overlay" id="movieModalOverlay" role="dialog" aria-modal="true">
+    <div class="modal-dialog">
+      <!-- Close Button -->
+      <button class="modal-close-btn" id="modalCloseBtn" aria-label="Close dialog">✕</button>
+
+      <!-- Video / Trailer Iframe Container -->
+      <div class="modal-video-container" id="modalVideoContainer">
+        <!-- YouTube trailer embed inserted dynamically -->
+      </div>
+
+      <!-- Modal Body -->
+      <div class="modal-content-body">
+        <div class="modal-header-row">
+          <img id="modalPoster" class="modal-poster-mini" src="" alt="Movie Poster" />
+          <div class="modal-title-wrap">
+            <h2 id="modalTitle" class="modal-title">Movie Title</h2>
+            <div id="modalTagline" class="modal-tagline">Tagline or year</div>
+            <div id="modalRatingScore" class="star-rating star-rating-lg"></div>
+            <div id="modalGenres" class="modal-genres"></div>
+          </div>
+        </div>
+
+        <!-- Synopsis -->
+        <p id="modalOverview" class="modal-overview"></p>
+
+        <!-- Cast -->
+        <div class="modal-cast-section">
+          <div class="modal-cast-title">Featured Cast & Crew</div>
+          <div id="modalCastList" class="modal-cast-list"></div>
+        </div>
+
+        <!-- Rating & Watchlist Action Bar -->
+        <div class="modal-actions-bar">
+          <div class="rating-prompt">
+            <span class="rating-prompt-label">YOUR RATING:</span>
+            <div id="modalStarPicker" class="interactive-stars"></div>
+          </div>
+
+          <button id="modalWatchlistBtn" class="btn-primary-action">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+            </svg>
+            ADD TO WATCHLIST
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       WATCHLIST SLIDE-OUT DRAWER
+       ========================================================================== -->
+  <div class="drawer-overlay" id="watchlistDrawerOverlay" role="dialog" aria-modal="true">
+    <div class="drawer-panel">
+      <div class="drawer-header">
+        <div class="drawer-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#00e054">
+            <path d="M17 3H7c-1.1 0-1.99.9-1.99 2L5 21l7-3 7 3V5c0-1.1-.9-2-2-2z"/>
+          </svg>
+          My Cinema Watchlist
+        </div>
+        <button id="drawerCloseBtn" class="btn-ghost" style="padding: 4px; font-size: 18px;" aria-label="Close drawer">✕</button>
+      </div>
+
+      <div class="drawer-content" id="drawerWatchlistContent">
+        <!-- Watchlist items rendered dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       FOOTER (Void Black, 1px Slate Border, Graphik Fog links)
+       ========================================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand-col">
+          <div class="logo">PICTURE FLIX<span class="logo-dot"></span></div>
+          <p class="footer-desc">
+            The darkened cinema lobby for film enthusiasts. Track films you've watched, save titles to your watchlist, and explore curated world cinema.
+          </p>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Navigation</div>
+          <ul class="footer-links">
+            <li><a href="#trendingSection" class="footer-link">Trending Films</a></li>
+            <li><a href="#topRatedSection" class="footer-link">Top Rated 250</a></li>
+            <li><a href="#nowPlayingSection" class="footer-link">In Theatres</a></li>
+            <li><a href="#curatedSection" class="footer-link">Sci-Fi & Noir</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Community</div>
+          <ul class="footer-links">
+            <li><a href="#editorialSection" class="footer-link">Member Journal</a></li>
+            <li><a href="#" class="footer-link">Year in Review</a></li>
+            <li><a href="#" class="footer-link">Film HQ Lists</a></li>
+            <li><a href="#" class="footer-link">Director Spotlight</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Cinema Tech</div>
+          <ul class="footer-links">
+            <li><a href="#" class="footer-link">API Integration</a></li>
+            <li><a href="#" class="footer-link">Design System Tokens</a></li>
+            <li><a href="#" class="footer-link">Letterboxd Aesthetic</a></li>
+            <li><a href="#" class="footer-link">Privacy & Legal</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2026 Picture Flix Inc. Crafted with Letterboxd cinema design system principles.</div>
+        <div class="tmdb-attribution">
+          <span>Powered by</span>
+          <span style="font-weight:bold;color:var(--color-glacier);">TMDB API</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Application Script -->
+  <script src="app.js"></script>
+</body>
+</html>
